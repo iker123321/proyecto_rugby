@@ -1,4 +1,6 @@
-let carrito = JSON.parse(localStorage.getItem("carrito")) || {};
+// let carrito = JSON.parse(localStorage.getItem("carrito")) || {};
+let carrito = getCookieValue("carrito");
+
 
 // Función para agregar productos al carrito
 function agregarAlCarrito(nombre, precio) {
@@ -11,7 +13,10 @@ function agregarAlCarrito(nombre, precio) {
     };
   }
   // Guardar el carrito en LocalStorage y actualizar la página web del carrito
-  localStorage.setItem("carrito", JSON.stringify(carrito));
+  // localStorage.setItem("carrito", JSON.stringify(carrito));
+  //  document.cookie = "carrito=" + encodeURIComponent(carrito);
+  document.cookie = "carrito=" + encodeURIComponent(JSON.stringify(carrito));
+  console.log(document.cookie);
   actualizarCarrito();  // actualizar_cartito_db();
   actualizar_cartito_db2();
 }
@@ -46,7 +51,9 @@ function actualizarCarrito() {
 }
 function eliminarProducto(nombre) {
     delete carrito[nombre]; // Eliminar el producto del objeto carrito
-    localStorage.setItem("carrito", JSON.stringify(carrito)); // Guardar el carrito actualizado en LocalStorage
+    //localStorage.setItem("carrito", JSON.stringify(carrito)); // Guardar el carrito actualizado en LocalStorage
+     document.cookie = "carrito=" + encodeURIComponent(JSON.stringify(carrito));
+
     actualizarCarrito(); // Actualizar la página web del carrito
     // actualizar_cartito_db();
 }
@@ -58,13 +65,18 @@ function disminuirCantidad(nombre) {
       } else {
         delete carrito[nombre];
       }
-      localStorage.setItem("carrito", JSON.stringify(carrito));
+      // localStorage.setItem("carrito", JSON.stringify(carrito));
+       document.cookie = "carrito=" + encodeURIComponent(JSON.stringify(carrito));
+
       actualizarCarrito();
       actualizar_cartito_db2();
     }
   }
 function cambiar_local_storage(prueba){
-  localStorage.setItem("carrito", prueba);
+  // localStorage.setItem("carrito", prueba);
+  document.cookie = "carrito = "+prueba;
+  document.cookie = "carrito=" + encodeURIComponent(carrito);
+
 }
 function contador(){
   let haeder_cantidad = document.getElementById("cantidad");
@@ -78,7 +90,7 @@ function actualizar_cartito_db2(){
     headers: {
       'Content-Type': 'application/json'
     },
-    body: localStorage.getItem("carrito")
+    body: /*localStorage.getItem("carrito")*/ JSON.stringify(getCookieValue("carrito"))
   })
     .then(response => {
       if (response.ok) {
@@ -104,3 +116,19 @@ function actualizar_cartito_db2(){
 //   // Enviar el formulario
 //   document.getElementById('miFormulario').submit();
 // }
+
+function getCookieValue(cookieName) {
+  var name = cookieName + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var cookieArray = decodedCookie.split(';');
+  for(var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i];
+    while (cookie.charAt(0) === ' ') {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(name) === 0) {
+      return JSON.parse(cookie.substring(name.length, cookie.length));
+    }
+  }
+  return "";
+}

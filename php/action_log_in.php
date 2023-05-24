@@ -28,12 +28,26 @@ if (isset($_POST['login'])){
         $sql = "SELECT cart_products FROM 034_cart WHERE user_id = '$user_id'";
         $resultado = mysqli_query($conn, $sql);
         if ($resultado->num_rows > 0) {
-        // imprime los datos de la fila
-        $_SESSION['carrito'] = mysqli_fetch_assoc($resultado)['cart_products'];
+            // $prueba = mysqli_fetch_assoc($resultado)['cart_products'];
+        // imprime los datos de la fil
+            $prueba = mysqli_fetch_assoc($resultado)['cart_products'];
+            // echo gettype($prueba);
+            // echo '<script type="text/javascript">
+            // document.cookie = "carrito=";
+            //</script>';
+         $_SESSION['carrito']= $prueba;
+         $_SESSION['primera']= 1;
         } else {
         $_SESSION['carrito']='{}';
+        // setcookie("carrito",  "{}", [
+        //     'samesite' => 'Lax', // Allowed values: "Lax" or "Strict"
+        //     'expires' => time() + 86400,
+        // ]);
         }
-        echo '<script type="text/javascript">window.location.href = "index.php";</script>';
+        // print_r();
+        echo '<script type="text/javascript">
+        window.location.href = "index.php";
+        </script>';
     }else{
         echo '<script>alert("Incorrect password")</script>';
     }

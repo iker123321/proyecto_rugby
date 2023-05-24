@@ -7,8 +7,14 @@ if(isset($_SESSION['nombre']) != false){
     $var_nombre = " ";
 }
 if(isset($_SESSION['carrito']) != false){
-    $aver = 1;
-    $prueba = $_SESSION["carrito"];
+    if($_SESSION['primera'] == 1){
+        $prueba = $_SESSION["carrito"];
+        $_SESSION['primera'] = 2;
+        setcookie("carrito", $prueba, [
+            'samesite' => 'Lax', // Allowed values: "Lax" or "Strict"
+            'expires' => time() + 86400,
+        ]);
+    }
 }else{
     $aver = 0;
     $prueba = '{}';
@@ -28,16 +34,10 @@ if(isset($_SESSION['carrito']) != false){
     <link rel="stylesheet" href="src/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>  
     <script src="https://kit.fontawesome.com/45df7cb5a1.js" crossorigin="anonymous"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <title>Menorca Rugby</title>
 </head>
 <body>
-<script>
-  window.onload = function() {
-// contador();
-    cambiar_local_storage(<?php echo $prueba;?>);
-};
-
-</script>
 <header>
   <nav x-data="{ isOpen: false }" class="relative bg-blue-900 shadow dark:bg-gray-800 z-1000">
     <div class="container px-6 py-4 mx-auto lg:flex lg:justify-between lg:items-center">
@@ -93,19 +93,19 @@ if(isset($_SESSION['carrito']) != false){
                 echo'
                 <a class = "text-white mr-4">Bienvenido '.$var_nombre.'!</a>
                 <a href = "cuenta.php" class = "text-left m-0 p-0"><i class="fa-regular fa-circle-user fa-xl hover: color-blue-200" style="color: #ffffff;"></i></a><br><br>
-                <a class="mx-0 sm:mx-4 rounded border border-indigo-600 bg-indigo-600 px-8 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500" href="php/action_log_out.php">Log out</a>';
+                <a class="mx-0 sm:mx-4 rounded border border-indigo-600 bg-indigo-600 px-8 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500" href="php/action_log_out.php">Log out</a>
+                <div class="flex lg: mb-4 sm: mt-2">
+                            <a class="mt-0 sm: mt-3 relative text-white transition-colors duration-300 transform dark:text-white hover:text-gray-600 dark:hover:text-gray-300" href="cart.php">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <!-- <span class="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span> -->
+                            </a>
+                            
+                            <p class="ml-1 text-white mt-2" id="cantidad"></p>
+                </div>';
             }
             ?>
-        <div class="flex lg: mb-4 sm: mt-2">
-                    <a class="mt-0 sm: mt-3 relative text-white transition-colors duration-300 transform dark:text-white hover:text-gray-600 dark:hover:text-gray-300" href="cart.php">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.70711 15.2929C4.07714 15.9229 4.52331 17 5.41421 17H17M17 17C15.8954 17 15 17.8954 15 19C15 20.1046 15.8954 21 17 21C18.1046 21 19 20.1046 19 19C19 17.8954 18.1046 17 17 17ZM9 19C9 20.1046 8.10457 21 7 21C5.89543 21 5 20.1046 5 19C5 17.8954 5.89543 17 7 17C8.10457 17 9 17.8954 9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <!-- <span class="absolute top-0 left-0 p-1 text-xs text-white bg-blue-500 rounded-full"></span> -->
-                    </a>
-                    
-                    <p class="ml-1 text-white mt-2" id="cantidad"></p>
-        </div>
         </div>
     </div>
 </nav>

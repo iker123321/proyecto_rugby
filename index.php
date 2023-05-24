@@ -39,7 +39,7 @@
     </button>
 </div>
 
-<section>
+<section  data-aos="fade-up">
   <div
     class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8"
   >
@@ -124,7 +124,7 @@
   </div>
 </section>
 
-<section>
+<section  data-aos="fade-up">
   <div
     class="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8"
   >
