@@ -52,7 +52,7 @@
         name = "password"
         />
         
-        <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+        <span class="absolute inset-y-0 end-0 grid place-content-center px-4" >
             <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 text-gray-400"
@@ -75,6 +75,8 @@
         </svg>
     </span>
 </div>
+
+
 </div>
 <div class="text-center">
     <input type="submit" value="Confirmar" name = "login" class="rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white hover: cursor-pointer">
